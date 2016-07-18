@@ -9,8 +9,8 @@
 #import "ViewController.h"
 #import "SourceCurrencyCell.h"
 #import "DestinationCurrencyCell.h"
-
-#define CURRENCIES @[@"GBP", @"USD", @"EUR"]
+#import "WalletModel.h"
+#import "ExchangeModel.h"
 
 @interface ViewController () <CurrencyCellDelegate>
 
@@ -22,6 +22,7 @@
 @property (nonatomic, weak) IBOutlet UIPageControl *srcPageControl;
 @property (nonatomic, weak) IBOutlet UIPageControl *dstPageControl;
 
+@property (nonatomic, weak) IBOutlet UILabel *rateLabel;
 @property (nonatomic, weak) IBOutlet UIButton *rateButton;
 @property (nonatomic, weak) IBOutlet UIButton *exchangeButton;
 
@@ -59,11 +60,11 @@
     [self.srcCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
                                  atScrollPosition:UICollectionViewScrollPositionLeft
                                          animated:NO];
-    self.srcPageControl.numberOfPages = [CURRENCIES count];
+    self.srcPageControl.numberOfPages = [[[WalletModel sharedInstance] activeAccountCodes] count];
     [self.dstCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]
                                  atScrollPosition:UICollectionViewScrollPositionLeft
                                          animated:NO];
-    self.dstPageControl.numberOfPages = [CURRENCIES count];
+    self.dstPageControl.numberOfPages = [[[WalletModel sharedInstance] activeAccountCodes] count];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -94,12 +95,13 @@
     
     NSInteger page = lround(scrollView.contentOffset.x / scrollView.frame.size.width);
     NSInteger currentIndex = page-1;
+    NSArray *accounts = [[WalletModel sharedInstance] activeAccountCodes];
     if (page == 0) {
-        [collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[CURRENCIES count] inSection:0]
+        [collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[accounts count] inSection:0]
                                atScrollPosition:UICollectionViewScrollPositionLeft
                                        animated:NO];
-        currentIndex = [CURRENCIES count] - 1;
-    } else if (page == [CURRENCIES count] + 1) {
+        currentIndex = [accounts count] - 1;
+    } else if (page == [accounts count] + 1) {
         [collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
                                atScrollPosition:UICollectionViewScrollPositionLeft
                                        animated:NO];
@@ -108,27 +110,49 @@
     pageControl.currentPage = currentIndex;
     
     if(scrollView == self.dstCurrencyView) {
-        self.currentDstCode = CURRENCIES[currentIndex];
+        self.currentDstCode = accounts[currentIndex];
     }
     else {
-        self.currentSrcCode = CURRENCIES[currentIndex];
+        self.currentSrcCode = accounts[currentIndex];
         [self performSelector:@selector(updateActiveField) withObject:nil afterDelay:0.1];
     }
-    NSString *rateString = [NSString stringWithFormat:@"$1 = $1"];
-    [self.rateButton setTitle:rateString forState:UIControlStateNormal];
+    if(_currentSrcCode && _currentDstCode) {
+        NSString *rateString = [NSString stringWithFormat:@"%@1 = %@%.4f",
+                                [ExchangeModel currencySymbolForCode:_currentSrcCode],
+                                [ExchangeModel currencySymbolForCode:_currentDstCode],
+                                [[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:_currentDstCode]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:rateString];
+        [str addAttribute:NSFontAttributeName value:_rateLabel.font range:NSMakeRange(0, [rateString length]-2)];
+        [str addAttribute:NSFontAttributeName value:[_rateLabel.font fontWithSize:_rateLabel.font.pointSize*0.7] range:NSMakeRange([rateString length]-2, 2)];
+        self.rateLabel.attributedText = str;
+    }
+    if(_currentSrcAmount)
+        [self amountDidChange:_currentSrcAmount];
 }
 
 -(void)updateActiveField {
     NSIndexPath *ip = [self.srcCurrencyView indexPathForItemAtPoint:CGPointMake(self.srcCurrencyView.contentOffset.x+1, 1)];
     SourceCurrencyCell *cell = (SourceCurrencyCell*)[self.srcCurrencyView cellForItemAtIndexPath:ip];
-    if(ip.row != 0 && ip.row != [CURRENCIES count]+1 && [cell.currencyCode isEqualToString:self.currentSrcCode]) {
+    if(ip.row != 0 && ip.row != [[[WalletModel sharedInstance] activeAccountCodes] count]+1 && [cell.currencyCode isEqualToString:self.currentSrcCode]) {
         [cell activateCell];
     }
 }
 
 #pragma mark actions 
 -(IBAction)exchangeAction:(id)sender {
-    
+    if([[WalletModel sharedInstance] exchangeFrom:self.currentSrcCode to:self.currentDstCode amount:self.currentSrcAmount]) {
+        [self.srcCurrencyView reloadData];
+        [self.dstCurrencyView reloadData];
+        [self performSelector:@selector(updateActiveField) withObject:nil afterDelay:0.1];
+    }
+    else {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:@"Operation wasn't successful."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 -(IBAction)cancelAction:(id)sender {
@@ -154,7 +178,9 @@
     self.currentSrcAmount = amount;
     [self.dstCurrencyView reloadData];
 
-    self.exchangeButton.enabled = ([_currentSrcAmount intValue] <= 100);
+    double possibleAmount = [[[WalletModel sharedInstance] amountForCode:self.currentSrcCode] doubleValue];
+    double currentValue = [_currentSrcAmount doubleValue];
+    self.exchangeButton.enabled = (![_currentDstCode isEqualToString:_currentSrcCode] && currentValue > 0 && currentValue <= possibleAmount);
 }
 
 #pragma mark UICollectionView
@@ -163,32 +189,38 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [CURRENCIES count]+2;
+    return [[[WalletModel sharedInstance] activeAccountCodes] count]+2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *currencyCode;
+    NSArray *accounts = [[WalletModel sharedInstance] activeAccountCodes];
     if(indexPath.row == 0)
-        currencyCode = [CURRENCIES lastObject];
-    else if(indexPath.row == [CURRENCIES count]+1)
-        currencyCode = [CURRENCIES firstObject];
+        currencyCode = [accounts lastObject];
+    else if(indexPath.row == [accounts count]+1)
+        currencyCode = [accounts firstObject];
     else
-        currencyCode = CURRENCIES[indexPath.row-1];
+        currencyCode = accounts[indexPath.row-1];
     
     if(collectionView == self.dstCurrencyView) {
         DestinationCurrencyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DestinationCurrencyCell" forIndexPath:indexPath];
         cell.currencyCode = currencyCode;
-        cell.walletAmount = @(100);
-        cell.rateString = @"$1 = $1";
-        cell.changeAmount = @([self.currentSrcAmount doubleValue]*2);
+        cell.currencySymbol = [ExchangeModel currencySymbolForCode:currencyCode];
+        cell.walletAmount = [[WalletModel sharedInstance] amountForCode:currencyCode];
+        NSString *rateString = [NSString stringWithFormat:@"%@1 = %@%.2f",
+                                [ExchangeModel currencySymbolForCode:_currentSrcCode],
+                                [ExchangeModel currencySymbolForCode:_currentDstCode],
+                                [[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:_currentDstCode]];
+        cell.rateString = rateString;
+        cell.changeAmount = @([self.currentSrcAmount doubleValue]*[[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:_currentDstCode]);
         return cell;
     }
     else {
         SourceCurrencyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SourceCurrencyCell" forIndexPath:indexPath];
         cell.currencyCode = currencyCode;
-        NSLog(@"currencyCode: %@", currencyCode);
-        cell.walletAmount = @(100);
+        cell.currencySymbol = [ExchangeModel currencySymbolForCode:currencyCode];
+        cell.walletAmount = [[WalletModel sharedInstance] amountForCode:currencyCode];
         cell.delegate = self;
         return cell;
     }

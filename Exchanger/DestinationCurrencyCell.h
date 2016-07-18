@@ -11,6 +11,7 @@
 @interface DestinationCurrencyCell : UICollectionViewCell
 
 @property (nonatomic, strong) NSString *currencyCode;
+@property (nonatomic, strong) NSString *currencySymbol;
 @property (nonatomic, strong) NSNumber *walletAmount;
 @property (nonatomic, strong) NSString *rateString;
 @property (nonatomic, strong) NSNumber *changeAmount;

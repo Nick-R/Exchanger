@@ -17,8 +17,6 @@
 @property (nonatomic, weak) IBOutlet UILabel *walletLabel;
 @property (nonatomic, weak) IBOutlet UITextField *amountField;
 
-@property (nonatomic, strong) NSString *currencySymbol;
-
 @end
 
 @implementation SourceCurrencyCell
@@ -37,7 +35,7 @@
 
 -(IBAction)textFieldDidChange:(UITextField *)textField {
     int value = abs([textField.text intValue]);
-    if([_walletAmount doubleValue]>value)
+    if([_walletAmount doubleValue] >= value)
         self.walletLabel.textColor = WALLET_COLOR_NORMAL;
     else
         self.walletLabel.textColor = WALLET_COLOR_ERROR;
@@ -47,7 +45,6 @@
 
 -(void)setCurrencyCode:(NSString *)currencyCode {
     _currencyCode = currencyCode;
-    self.currencySymbol = @"$";
     self.currencyCodeLabel.text = currencyCode;
 }
 

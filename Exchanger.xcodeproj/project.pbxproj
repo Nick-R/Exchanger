@@ -15,6 +15,8 @@
 		E9E9A2B51D3CD6A200E946C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9E9A2B31D3CD6A200E946C4 /* LaunchScreen.storyboard */; };
 		E9E9A2BE1D3D014C00E946C4 /* SourceCurrencyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9A2BD1D3D014C00E946C4 /* SourceCurrencyCell.m */; };
 		E9E9A2C11D3D039900E946C4 /* DestinationCurrencyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9A2C01D3D039900E946C4 /* DestinationCurrencyCell.m */; };
+		E9E9A2C41D3D2B0F00E946C4 /* WalletModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9A2C31D3D2B0F00E946C4 /* WalletModel.m */; };
+		E9E9A2C71D3D2EBA00E946C4 /* ExchangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9A2C61D3D2EBA00E946C4 /* ExchangeModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,10 @@
 		E9E9A2BD1D3D014C00E946C4 /* SourceCurrencyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SourceCurrencyCell.m; sourceTree = "<group>"; };
 		E9E9A2BF1D3D039900E946C4 /* DestinationCurrencyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DestinationCurrencyCell.h; sourceTree = "<group>"; };
 		E9E9A2C01D3D039900E946C4 /* DestinationCurrencyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DestinationCurrencyCell.m; sourceTree = "<group>"; };
+		E9E9A2C21D3D2B0F00E946C4 /* WalletModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalletModel.h; sourceTree = "<group>"; };
+		E9E9A2C31D3D2B0F00E946C4 /* WalletModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletModel.m; sourceTree = "<group>"; };
+		E9E9A2C51D3D2EBA00E946C4 /* ExchangeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExchangeModel.h; sourceTree = "<group>"; };
+		E9E9A2C61D3D2EBA00E946C4 /* ExchangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExchangeModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +78,10 @@
 				E9E9A2BD1D3D014C00E946C4 /* SourceCurrencyCell.m */,
 				E9E9A2BF1D3D039900E946C4 /* DestinationCurrencyCell.h */,
 				E9E9A2C01D3D039900E946C4 /* DestinationCurrencyCell.m */,
+				E9E9A2C21D3D2B0F00E946C4 /* WalletModel.h */,
+				E9E9A2C31D3D2B0F00E946C4 /* WalletModel.m */,
+				E9E9A2C51D3D2EBA00E946C4 /* ExchangeModel.h */,
+				E9E9A2C61D3D2EBA00E946C4 /* ExchangeModel.m */,
 				E9E9A2AE1D3CD6A200E946C4 /* Main.storyboard */,
 				E9E9A2B11D3CD6A200E946C4 /* Assets.xcassets */,
 				E9E9A2B31D3CD6A200E946C4 /* LaunchScreen.storyboard */,
@@ -161,9 +171,11 @@
 			files = (
 				E9E9A2AD1D3CD6A200E946C4 /* ViewController.m in Sources */,
 				E9E9A2AA1D3CD6A200E946C4 /* AppDelegate.m in Sources */,
+				E9E9A2C41D3D2B0F00E946C4 /* WalletModel.m in Sources */,
 				E9E9A2A71D3CD6A200E946C4 /* main.m in Sources */,
 				E9E9A2C11D3D039900E946C4 /* DestinationCurrencyCell.m in Sources */,
 				E9E9A2BE1D3D014C00E946C4 /* SourceCurrencyCell.m in Sources */,
+				E9E9A2C71D3D2EBA00E946C4 /* ExchangeModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

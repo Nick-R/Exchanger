@@ -15,15 +15,12 @@
 @property (nonatomic, weak) IBOutlet UILabel *amountLabel;
 @property (nonatomic, weak) IBOutlet UILabel *rateLabel;
 
-@property (nonatomic, strong) NSString *currencySymbol;
-
 @end
 
 @implementation DestinationCurrencyCell
 
 -(void)setCurrencyCode:(NSString *)currencyCode {
     _currencyCode = currencyCode;
-    self.currencySymbol = @"$";
     self.currencyCodeLabel.text = currencyCode;
 }
 

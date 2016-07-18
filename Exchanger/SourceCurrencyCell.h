@@ -19,6 +19,7 @@
 @property id<CurrencyCellDelegate> delegate;
 
 @property (nonatomic, strong) NSString *currencyCode;
+@property (nonatomic, strong) NSString *currencySymbol;
 @property (nonatomic, strong) NSNumber *walletAmount;
 
 -(void)activateCell;
