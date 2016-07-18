@@ -22,12 +22,14 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];
+        // sets a timer and fires first rates update
         [[NSTimer scheduledTimerWithTimeInterval:30 target:sharedInstance selector:@selector(loadRates) userInfo:nil repeats:YES] fire];
     });
     return sharedInstance;
 }
 
 -(void)loadRates {
+    // download, parse and save rates in background
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         @try {
             NSURL *url = [[NSURL alloc]initWithString:@"http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"];
@@ -45,6 +47,7 @@
         } @catch (NSException *exception) {
             NSLog(@"loading rates exception: %@", exception);
         } @finally {
+            // notify everybody on main thread
             dispatch_async(dispatch_get_main_queue(), ^(void){
                 [[NSNotificationCenter defaultCenter] postNotificationName:RATES_UPDATE_NOTIFICATION object:self];
             });
@@ -52,6 +55,7 @@
     });
 }
 
+// calculate rates. all rates within our source is to EUR, so we should calculate cross rates
 -(double)rateFor:(NSString*)fromCode to:(NSString*)toCode {
     double value1, value2;
     if([fromCode isEqualToString:@"EUR"])

@@ -73,19 +73,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GBP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bH2-dV-JTn">
-                                                    <rect key="frame" x="30" y="21" width="76" height="48"/>
+                                                    <rect key="frame" x="30" y="27" width="76" height="48"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="40"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have $100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPL-YC-WzC">
-                                                    <rect key="frame" x="30" y="73" width="111" height="21"/>
+                                                    <rect key="frame" x="30" y="79" width="111" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="0.7484644396551724" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p3t-px-zsL">
-                                                    <rect key="frame" x="160" y="21" width="140" height="48"/>
+                                                    <rect key="frame" x="160" y="27" width="140" height="48"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="40"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
@@ -101,9 +101,9 @@
                                             <constraint firstItem="fPL-YC-WzC" firstAttribute="leading" secondItem="mmv-Rm-crv" secondAttribute="leading" constant="30" id="Jw4-I1-ml9"/>
                                             <constraint firstItem="bH2-dV-JTn" firstAttribute="leading" secondItem="mmv-Rm-crv" secondAttribute="leading" constant="30" id="QUC-vJ-73X"/>
                                             <constraint firstItem="p3t-px-zsL" firstAttribute="leading" secondItem="mmv-Rm-crv" secondAttribute="centerXWithinMargins" id="dgV-rt-2xB"/>
-                                            <constraint firstItem="bH2-dV-JTn" firstAttribute="top" secondItem="mmv-Rm-crv" secondAttribute="top" constant="21" id="f2h-Nv-IZI"/>
                                             <constraint firstAttribute="trailing" secondItem="p3t-px-zsL" secondAttribute="trailing" constant="20" id="ikL-0F-Xcy"/>
                                             <constraint firstItem="p3t-px-zsL" firstAttribute="baseline" secondItem="bH2-dV-JTn" secondAttribute="baseline" id="wpx-Yi-Qi7"/>
+                                            <constraint firstAttribute="centerYWithinMargins" secondItem="bH2-dV-JTn" secondAttribute="bottom" id="zzx-vJ-2ej"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="amountField" destination="p3t-px-zsL" id="cGB-fL-lq1"/>
@@ -141,25 +141,25 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GBP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NPh-Im-u2e">
-                                                    <rect key="frame" x="30" y="21" width="76" height="48"/>
+                                                    <rect key="frame" x="30" y="27" width="76" height="48"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="40"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="C8e-D9-wGL">
-                                                    <rect key="frame" x="160" y="21" width="140" height="48"/>
+                                                    <rect key="frame" x="160" y="27" width="140" height="48"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="40"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have $100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="R6R-7F-jCd">
-                                                    <rect key="frame" x="30" y="73" width="130" height="21"/>
+                                                    <rect key="frame" x="30" y="79" width="130" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="0.75032327586206893" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$1 = $1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kn3-g0-moC">
-                                                    <rect key="frame" x="160" y="73" width="140" height="21"/>
+                                                    <rect key="frame" x="160" y="79" width="140" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="0.75032327590000003" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -172,9 +172,9 @@
                                             <constraint firstItem="NPh-Im-u2e" firstAttribute="leading" secondItem="zmO-s8-co1" secondAttribute="leading" constant="30" id="BEr-ha-c2t"/>
                                             <constraint firstItem="kn3-g0-moC" firstAttribute="leading" secondItem="zmO-s8-co1" secondAttribute="centerXWithinMargins" id="D8H-hJ-19M"/>
                                             <constraint firstAttribute="centerXWithinMargins" secondItem="R6R-7F-jCd" secondAttribute="trailing" id="FMs-H6-BF0"/>
+                                            <constraint firstAttribute="centerYWithinMargins" secondItem="NPh-Im-u2e" secondAttribute="bottom" id="Vq0-yk-1jl"/>
                                             <constraint firstItem="C8e-D9-wGL" firstAttribute="leading" secondItem="zmO-s8-co1" secondAttribute="centerXWithinMargins" id="Wi7-qV-98S"/>
                                             <constraint firstItem="R6R-7F-jCd" firstAttribute="top" secondItem="NPh-Im-u2e" secondAttribute="bottom" constant="4" id="Zyt-fC-zW7"/>
-                                            <constraint firstItem="NPh-Im-u2e" firstAttribute="top" secondItem="zmO-s8-co1" secondAttribute="top" constant="21" id="hQL-Gy-PH8"/>
                                             <constraint firstAttribute="trailing" secondItem="C8e-D9-wGL" secondAttribute="trailing" constant="20" id="jbD-Vo-ZQr"/>
                                             <constraint firstItem="C8e-D9-wGL" firstAttribute="baseline" secondItem="NPh-Im-u2e" secondAttribute="baseline" id="kTH-ee-ejt"/>
                                             <constraint firstAttribute="trailing" secondItem="kn3-g0-moC" secondAttribute="trailing" constant="20" id="kr2-Mg-Bpb"/>

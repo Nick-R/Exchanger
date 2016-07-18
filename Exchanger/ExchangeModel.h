@@ -8,14 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+// we'll post this notification after rates update
+// i used notification as we can have multiple subscribers for this event in future
 #define RATES_UPDATE_NOTIFICATION @"RATES_UPDATE_NOTIFICATION"
 
 @interface ExchangeModel : NSObject
 
 +(instancetype)sharedInstance;
 
+// returns exchange rate for currency codes
 -(double)rateFor:(NSString*)fromCode to:(NSString*)toCode;
 
+// utility method to receive currency symbol by code
 +(NSString*)currencySymbolForCode:(NSString*)currencyCode;
 
 @end

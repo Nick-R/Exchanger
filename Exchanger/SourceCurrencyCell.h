@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol CurrencyCellDelegate
-
+// delegate to notify that user input was changed
 -(void)amountDidChange:(NSNumber*)amount;
 
 @end

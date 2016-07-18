@@ -12,8 +12,11 @@
 
 +(instancetype)sharedInstance;
 
+// returns available account codes
 -(NSArray*)activeAccountCodes;
+// returns account balance by code
 -(NSNumber*)amountForCode:(NSString*)currencyCode;
+// performs exchange
 -(BOOL)exchangeFrom:(NSString*)fromCode to:(NSString*)toCode amount:(NSNumber*)amount;
 
 @end

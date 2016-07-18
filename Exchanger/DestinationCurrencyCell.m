@@ -6,6 +6,9 @@
 //  Copyright © 2016 Nicolas Rostov. All rights reserved.
 //
 
+#define FONT_LARGE [UIFont fontWithName:@"HelveticaNeue-Light" size:36 * [[UIScreen mainScreen] bounds].size.width / 320]
+#define FONT_SMALL [UIFont fontWithName:@"HelveticaNeue-Light" size:17 * [[UIScreen mainScreen] bounds].size.width / 320]
+
 #import "DestinationCurrencyCell.h"
 
 @interface DestinationCurrencyCell ()
@@ -18,6 +21,13 @@
 @end
 
 @implementation DestinationCurrencyCell
+
+-(void)prepareForReuse {
+    self.currencyCodeLabel.font = FONT_LARGE;
+    self.amountLabel.font = FONT_LARGE;
+    self.walletLabel.font = FONT_SMALL;
+    self.rateLabel.font = FONT_SMALL;
+}
 
 -(void)setCurrencyCode:(NSString *)currencyCode {
     _currencyCode = currencyCode;
