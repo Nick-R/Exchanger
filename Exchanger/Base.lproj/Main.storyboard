@@ -53,23 +53,23 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="K2C-jL-0n5">
-                                <rect key="frame" x="0.0" y="53" width="320" height="160"/>
+                                <rect key="frame" x="0.0" y="53" width="320" height="149"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="uP0-n8-aYs"/>
+                                    <constraint firstAttribute="height" constant="149" id="uP0-n8-aYs"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="KbP-jR-OBh">
-                                    <size key="itemSize" width="320" height="160"/>
+                                    <size key="itemSize" width="320" height="149"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="SourceCurrencyCell" id="mmv-Rm-crv" customClass="SourceCurrencyCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="149"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="149"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GBP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bH2-dV-JTn">
@@ -118,26 +118,26 @@
                                 </connections>
                             </collectionView>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="geA-ca-1eR">
-                                <rect key="frame" x="141" y="166" width="39" height="37"/>
+                                <rect key="frame" x="141" y="172" width="39" height="37"/>
                             </pageControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5hK-G1-RlJ">
-                                <rect key="frame" x="0.0" y="213" width="320" height="160"/>
+                                <rect key="frame" x="0.0" y="202" width="320" height="149"/>
                                 <color key="backgroundColor" red="0.066666666666666666" green="0.32549019607843138" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="LYP-C9-sMq"/>
+                                    <constraint firstAttribute="height" constant="149" id="LYP-C9-sMq"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="xHL-Oj-bVI">
-                                    <size key="itemSize" width="320" height="160"/>
+                                    <size key="itemSize" width="320" height="149"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DestinationCurrencyCell" id="zmO-s8-co1" customClass="DestinationCurrencyCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="149"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="149"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GBP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NPh-Im-u2e">
@@ -194,7 +194,7 @@
                                 </connections>
                             </collectionView>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="WC8-lC-iyL">
-                                <rect key="frame" x="140" y="329" width="39" height="37"/>
+                                <rect key="frame" x="140" y="321" width="39" height="37"/>
                             </pageControl>
                         </subviews>
                         <color key="backgroundColor" red="0.066666666666666666" green="0.41960784313725491" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
@@ -210,12 +210,12 @@
                             <constraint firstItem="WHr-6O-EDF" firstAttribute="centerY" secondItem="mS5-tw-lO6" secondAttribute="centerY" id="das-ET-Dwq"/>
                             <constraint firstItem="YDD-Wd-GaY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="etH-S2-bsQ"/>
                             <constraint firstItem="WHr-6O-EDF" firstAttribute="leading" secondItem="mS5-tw-lO6" secondAttribute="leading" constant="4" id="jPH-xx-DkJ"/>
-                            <constraint firstItem="geA-ca-1eR" firstAttribute="top" secondItem="K2C-jL-0n5" secondAttribute="bottom" constant="-47" id="jx7-fC-gtU"/>
+                            <constraint firstItem="geA-ca-1eR" firstAttribute="top" secondItem="K2C-jL-0n5" secondAttribute="bottom" constant="-30" id="jx7-fC-gtU"/>
                             <constraint firstItem="WC8-lC-iyL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nno-qb-5Bd"/>
                             <constraint firstAttribute="trailing" secondItem="5hK-G1-RlJ" secondAttribute="trailing" id="pTN-Lw-rVf"/>
                             <constraint firstItem="5hK-G1-RlJ" firstAttribute="top" secondItem="K2C-jL-0n5" secondAttribute="bottom" id="po2-FO-ikn"/>
                             <constraint firstItem="mS5-tw-lO6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="re7-Se-6gf"/>
-                            <constraint firstItem="WC8-lC-iyL" firstAttribute="top" secondItem="5hK-G1-RlJ" secondAttribute="bottom" constant="-44" id="sPV-Hh-6xh"/>
+                            <constraint firstItem="WC8-lC-iyL" firstAttribute="top" secondItem="5hK-G1-RlJ" secondAttribute="bottom" constant="-30" id="sPV-Hh-6xh"/>
                             <constraint firstItem="K2C-jL-0n5" firstAttribute="top" secondItem="mS5-tw-lO6" secondAttribute="bottom" id="sci-Ve-kOd"/>
                             <constraint firstItem="YDD-Wd-GaY" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="tO5-XY-Q6z"/>
                             <constraint firstItem="5hK-G1-RlJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="uCA-jL-7Qu"/>
@@ -230,6 +230,7 @@
                         <outlet property="rateButton" destination="mS5-tw-lO6" id="Kg7-4R-rtq"/>
                         <outlet property="rateLabel" destination="WHr-6O-EDF" id="FWQ-bB-ybY"/>
                         <outlet property="srcCurrencyView" destination="K2C-jL-0n5" id="Q3y-vE-SpJ"/>
+                        <outlet property="srcCurrencyViewHeight" destination="uP0-n8-aYs" id="2va-TU-lhl"/>
                         <outlet property="srcPageControl" destination="geA-ca-1eR" id="WMX-vn-g50"/>
                     </connections>
                 </viewController>

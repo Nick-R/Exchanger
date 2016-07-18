@@ -37,6 +37,8 @@
             NSMutableDictionary *updatedRates = [NSMutableDictionary new];
             for(NSDictionary *item in xmlDictionary[@"Cube"][@"Cube"][@"Cube"]) {
                 [updatedRates setObject:item[@"_rate"] forKey:item[@"_currency"]];
+                // testing values to see rate changes behavior
+                //[updatedRates setObject:@(random()%1000 * 0.01) forKey:item[@"_currency"]];
             }
             self.rates = [updatedRates copy];
             

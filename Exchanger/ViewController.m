@@ -17,6 +17,7 @@
 @property (nonatomic, weak) IBOutlet UICollectionView *srcCurrencyView;
 @property (nonatomic, weak) IBOutlet UICollectionView *dstCurrencyView;
 
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *srcCurrencyViewHeight;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *dstCurrencyViewHeight;
 
 @property (nonatomic, weak) IBOutlet UIPageControl *srcPageControl;
@@ -53,28 +54,22 @@
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateEverything)
+                                             selector:@selector(updateUI)
                                                  name:RATES_UPDATE_NOTIFICATION
                                                object:nil];
-    
-    [self.srcCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
-                                 atScrollPosition:UICollectionViewScrollPositionLeft
-                                         animated:NO];
-    self.srcPageControl.numberOfPages = [[[WalletModel sharedInstance] activeAccountCodes] count];
-    [self.dstCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]
-                                 atScrollPosition:UICollectionViewScrollPositionLeft
-                                         animated:NO];
-    self.dstPageControl.numberOfPages = [[[WalletModel sharedInstance] activeAccountCodes] count];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    self.srcPageControl.numberOfPages = [[[WalletModel sharedInstance] activeAccountCodes] count];
+    self.dstPageControl.numberOfPages = self.srcPageControl.numberOfPages;
+    [self.srcCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
+                                 atScrollPosition:UICollectionViewScrollPositionLeft
+                                         animated:NO];
+    [self.dstCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]
+                                 atScrollPosition:UICollectionViewScrollPositionLeft
+                                         animated:NO];
     [self currencyScrollChanged:self.srcCurrencyView];
     [self currencyScrollChanged:self.dstCurrencyView];
 }
@@ -82,7 +77,6 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RATES_UPDATE_NOTIFICATION object:nil];
 }
 
@@ -148,10 +142,11 @@
     }
 }
 
--(void)updateEverything {
-    [self.srcCurrencyView reloadData];
-    [self.dstCurrencyView reloadData];
-    [self performSelector:@selector(updateActiveField) withObject:nil afterDelay:0.1];
+-(void)updateUI {
+    for(SourceCurrencyCell *cell in self.srcCurrencyView.visibleCells)
+        [self configureSourceCell:cell];
+    for(DestinationCurrencyCell *cell in self.dstCurrencyView.visibleCells)
+        [self configureDestinationCell:cell];
     [self updateRateLabel];
 }
 
@@ -160,7 +155,8 @@
     UIAlertController* alert;
     if([[WalletModel sharedInstance] exchangeFrom:self.currentSrcCode to:self.currentDstCode amount:self.currentSrcAmount]) {
         
-        [self updateEverything];
+        [self updateUI];
+        [self updateActiveField];
         
         NSString *msg = [NSString stringWithFormat:@"Operation was successful. Now you have %@%.2f on your %@ account.", [ExchangeModel currencySymbolForCode:_currentDstCode], [[[WalletModel sharedInstance] amountForCode:_currentDstCode] doubleValue], _currentDstCode];
         alert = [UIAlertController alertControllerWithTitle:@"Success"
@@ -178,20 +174,17 @@
 }
 
 -(IBAction)cancelAction:(id)sender {
-    [self updateEverything];
+    [self updateUI];
+    [self updateActiveField];
 }
 
 #pragma mark keyboard
 - (void)keyboardWillShow:(NSNotification*)notification {
     NSDictionary *info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    CGFloat overlap = self.view.frame.size.height - CGRectGetMaxY(self.dstCurrencyView.frame) - kbSize.height;
-    if(overlap < 0)
-        self.dstCurrencyViewHeight.constant += overlap;
-}
-
-- (void)keyboardWillHide:(NSNotification*)notification {
-    self.dstCurrencyViewHeight.constant = self.srcCurrencyView.frame.size.height;
+    CGFloat height = (self.view.frame.size.height - CGRectGetMaxY(self.rateButton.frame) - kbSize.height)/2;
+    self.dstCurrencyViewHeight.constant = height;
+    self.srcCurrencyViewHeight.constant = height;
 }
 
 #pragma mark CurrencyCellDelegate
@@ -205,6 +198,20 @@
 }
 
 #pragma mark UICollectionView
+-(void)configureSourceCell:(SourceCurrencyCell*)cell {
+    cell.walletAmount = [[WalletModel sharedInstance] amountForCode:cell.currencyCode];
+}
+
+-(void)configureDestinationCell:(DestinationCurrencyCell*)cell {
+    cell.walletAmount = [[WalletModel sharedInstance] amountForCode:cell.currencyCode];
+    NSString *rateString = [NSString stringWithFormat:@"%@1 = %@%.2f",
+                            [ExchangeModel currencySymbolForCode:_currentSrcCode],
+                            [ExchangeModel currencySymbolForCode:cell.currencyCode],
+                            [[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:cell.currencyCode]];
+    cell.rateString = rateString;
+    cell.changeAmount = @([self.currentSrcAmount doubleValue]*[[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:cell.currencyCode]);
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [self currencyScrollChanged:scrollView];
 }
@@ -228,28 +235,22 @@
         DestinationCurrencyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DestinationCurrencyCell" forIndexPath:indexPath];
         cell.currencyCode = currencyCode;
         cell.currencySymbol = [ExchangeModel currencySymbolForCode:currencyCode];
-        cell.walletAmount = [[WalletModel sharedInstance] amountForCode:currencyCode];
-        NSString *rateString = [NSString stringWithFormat:@"%@1 = %@%.2f",
-                                [ExchangeModel currencySymbolForCode:_currentSrcCode],
-                                [ExchangeModel currencySymbolForCode:_currentDstCode],
-                                [[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:_currentDstCode]];
-        cell.rateString = rateString;
-        cell.changeAmount = @([self.currentSrcAmount doubleValue]*[[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:_currentDstCode]);
+        [self configureDestinationCell:cell];
         return cell;
     }
     else {
         SourceCurrencyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SourceCurrencyCell" forIndexPath:indexPath];
         cell.currencyCode = currencyCode;
         cell.currencySymbol = [ExchangeModel currencySymbolForCode:currencyCode];
-        cell.walletAmount = [[WalletModel sharedInstance] amountForCode:currencyCode];
+        [self configureSourceCell:cell];
         cell.delegate = self;
         return cell;
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return collectionView.bounds.size;
+    CGSize result = CGSizeMake(self.view.frame.size.width, collectionView.frame.size.height);
+    return result;
 }
 
 @end
