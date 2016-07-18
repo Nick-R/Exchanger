@@ -17,6 +17,7 @@
 		E9E9A2C11D3D039900E946C4 /* DestinationCurrencyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9A2C01D3D039900E946C4 /* DestinationCurrencyCell.m */; };
 		E9E9A2C41D3D2B0F00E946C4 /* WalletModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9A2C31D3D2B0F00E946C4 /* WalletModel.m */; };
 		E9E9A2C71D3D2EBA00E946C4 /* ExchangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9A2C61D3D2EBA00E946C4 /* ExchangeModel.m */; };
+		E9E9A2D11D3D40D300E946C4 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9A2CE1D3D40D300E946C4 /* XMLDictionary.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,10 @@
 		E9E9A2C31D3D2B0F00E946C4 /* WalletModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletModel.m; sourceTree = "<group>"; };
 		E9E9A2C51D3D2EBA00E946C4 /* ExchangeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExchangeModel.h; sourceTree = "<group>"; };
 		E9E9A2C61D3D2EBA00E946C4 /* ExchangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExchangeModel.m; sourceTree = "<group>"; };
+		E9E9A2CA1D3D40D300E946C4 /* LICENCE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENCE.md; sourceTree = "<group>"; };
+		E9E9A2CB1D3D40D300E946C4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E9E9A2CD1D3D40D300E946C4 /* XMLDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
+		E9E9A2CE1D3D40D300E946C4 /* XMLDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +75,7 @@
 		E9E9A2A41D3CD6A200E946C4 /* Exchanger */ = {
 			isa = PBXGroup;
 			children = (
+				E9E9A2C91D3D40D300E946C4 /* XMLDictionary */,
 				E9E9A2A81D3CD6A200E946C4 /* AppDelegate.h */,
 				E9E9A2A91D3CD6A200E946C4 /* AppDelegate.m */,
 				E9E9A2AB1D3CD6A200E946C4 /* ViewController.h */,
@@ -97,6 +103,25 @@
 				E9E9A2A61D3CD6A200E946C4 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E9E9A2C91D3D40D300E946C4 /* XMLDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				E9E9A2CA1D3D40D300E946C4 /* LICENCE.md */,
+				E9E9A2CB1D3D40D300E946C4 /* README.md */,
+				E9E9A2CC1D3D40D300E946C4 /* XMLDictionary */,
+			);
+			path = XMLDictionary;
+			sourceTree = "<group>";
+		};
+		E9E9A2CC1D3D40D300E946C4 /* XMLDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				E9E9A2CD1D3D40D300E946C4 /* XMLDictionary.h */,
+				E9E9A2CE1D3D40D300E946C4 /* XMLDictionary.m */,
+			);
+			path = XMLDictionary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,6 +198,7 @@
 				E9E9A2AA1D3CD6A200E946C4 /* AppDelegate.m in Sources */,
 				E9E9A2C41D3D2B0F00E946C4 /* WalletModel.m in Sources */,
 				E9E9A2A71D3CD6A200E946C4 /* main.m in Sources */,
+				E9E9A2D11D3D40D300E946C4 /* XMLDictionary.m in Sources */,
 				E9E9A2C11D3D039900E946C4 /* DestinationCurrencyCell.m in Sources */,
 				E9E9A2BE1D3D014C00E946C4 /* SourceCurrencyCell.m in Sources */,
 				E9E9A2C71D3D2EBA00E946C4 /* ExchangeModel.m in Sources */,

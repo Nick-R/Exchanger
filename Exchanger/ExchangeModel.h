@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define RATES_UPDATE_NOTIFICATION @"RATES_UPDATE_NOTIFICATION"
+
 @interface ExchangeModel : NSObject
 
 +(instancetype)sharedInstance;

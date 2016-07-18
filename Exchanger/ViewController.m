@@ -57,6 +57,11 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateEverything)
+                                                 name:RATES_UPDATE_NOTIFICATION
+                                               object:nil];
+    
     [self.srcCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
                                  atScrollPosition:UICollectionViewScrollPositionLeft
                                          animated:NO];
@@ -78,6 +83,7 @@
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RATES_UPDATE_NOTIFICATION object:nil];
 }
 
 // recalculates page indicator & current currency symbols
@@ -116,16 +122,7 @@
         self.currentSrcCode = accounts[currentIndex];
         [self performSelector:@selector(updateActiveField) withObject:nil afterDelay:0.1];
     }
-    if(_currentSrcCode && _currentDstCode) {
-        NSString *rateString = [NSString stringWithFormat:@"%@1 = %@%.4f",
-                                [ExchangeModel currencySymbolForCode:_currentSrcCode],
-                                [ExchangeModel currencySymbolForCode:_currentDstCode],
-                                [[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:_currentDstCode]];
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:rateString];
-        [str addAttribute:NSFontAttributeName value:_rateLabel.font range:NSMakeRange(0, [rateString length]-2)];
-        [str addAttribute:NSFontAttributeName value:[_rateLabel.font fontWithSize:_rateLabel.font.pointSize*0.7] range:NSMakeRange([rateString length]-2, 2)];
-        self.rateLabel.attributedText = str;
-    }
+    [self updateRateLabel];
     if(_currentSrcAmount)
         [self amountDidChange:_currentSrcAmount];
 }
@@ -138,26 +135,50 @@
     }
 }
 
-#pragma mark actions 
--(IBAction)exchangeAction:(id)sender {
-    if([[WalletModel sharedInstance] exchangeFrom:self.currentSrcCode to:self.currentDstCode amount:self.currentSrcAmount]) {
-        [self.srcCurrencyView reloadData];
-        [self.dstCurrencyView reloadData];
-        [self performSelector:@selector(updateActiveField) withObject:nil afterDelay:0.1];
-    }
-    else {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                       message:@"Operation wasn't successful."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
+-(void)updateRateLabel {
+    if(_currentSrcCode && _currentDstCode) {
+        NSString *rateString = [NSString stringWithFormat:@"%@1 = %@%.4f",
+                                [ExchangeModel currencySymbolForCode:_currentSrcCode],
+                                [ExchangeModel currencySymbolForCode:_currentDstCode],
+                                [[ExchangeModel sharedInstance] rateFor:_currentSrcCode to:_currentDstCode]];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:rateString];
+        [str addAttribute:NSFontAttributeName value:_rateLabel.font range:NSMakeRange(0, [rateString length]-2)];
+        [str addAttribute:NSFontAttributeName value:[_rateLabel.font fontWithSize:_rateLabel.font.pointSize*0.7] range:NSMakeRange([rateString length]-2, 2)];
+        self.rateLabel.attributedText = str;
     }
 }
 
--(IBAction)cancelAction:(id)sender {
+-(void)updateEverything {
     [self.srcCurrencyView reloadData];
+    [self.dstCurrencyView reloadData];
     [self performSelector:@selector(updateActiveField) withObject:nil afterDelay:0.1];
+    [self updateRateLabel];
+}
+
+#pragma mark actions
+-(IBAction)exchangeAction:(id)sender {
+    UIAlertController* alert;
+    if([[WalletModel sharedInstance] exchangeFrom:self.currentSrcCode to:self.currentDstCode amount:self.currentSrcAmount]) {
+        
+        [self updateEverything];
+        
+        NSString *msg = [NSString stringWithFormat:@"Operation was successful. Now you have %@%.2f on your %@ account.", [ExchangeModel currencySymbolForCode:_currentDstCode], [[[WalletModel sharedInstance] amountForCode:_currentDstCode] doubleValue], _currentDstCode];
+        alert = [UIAlertController alertControllerWithTitle:@"Success"
+                                                    message:msg
+                                             preferredStyle:UIAlertControllerStyleAlert];
+    }
+    else {
+        alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                    message:@"Operation wasn't successful."
+                                             preferredStyle:UIAlertControllerStyleAlert];
+    }
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(IBAction)cancelAction:(id)sender {
+    [self updateEverything];
 }
 
 #pragma mark keyboard
