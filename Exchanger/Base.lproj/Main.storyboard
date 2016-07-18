@@ -23,13 +23,19 @@
                                 <rect key="frame" x="10" y="20" width="80" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Отменить"/>
+                                <connections>
+                                    <action selector="cancelAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="i0p-Zh-Dvt"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2u-oX-mSR">
                                 <rect key="frame" x="235" y="20" width="75" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Exchange"/>
+                                <connections>
+                                    <action selector="exchangeAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7CK-7F-zLv"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mS5-tw-lO6">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mS5-tw-lO6">
                                 <rect key="frame" x="99" y="20" width="122" height="33"/>
                                 <color key="backgroundColor" red="0.035294117647058823" green="0.27843137254901962" blue="0.6588235294117647" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -53,7 +59,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="mmv-Rm-crv">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="SourceCurrencyCell" id="mmv-Rm-crv" customClass="SourceCurrencyCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -72,11 +78,14 @@
                                                     <color key="textColor" white="1" alpha="0.7484644396551724" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-100" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p3t-px-zsL">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p3t-px-zsL">
                                                     <rect key="frame" x="160" y="21" width="140" height="48"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="40"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
+                                                    <connections>
+                                                        <action selector="textFieldDidChange:" destination="mmv-Rm-crv" eventType="editingChanged" id="D5F-RO-ftw"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -90,6 +99,11 @@
                                             <constraint firstAttribute="trailing" secondItem="p3t-px-zsL" secondAttribute="trailing" constant="20" id="ikL-0F-Xcy"/>
                                             <constraint firstItem="p3t-px-zsL" firstAttribute="baseline" secondItem="bH2-dV-JTn" secondAttribute="baseline" id="wpx-Yi-Qi7"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="amountField" destination="p3t-px-zsL" id="cGB-fL-lq1"/>
+                                            <outlet property="currencyCodeLabel" destination="bH2-dV-JTn" id="HPl-mU-tUD"/>
+                                            <outlet property="walletLabel" destination="fPL-YC-WzC" id="6EG-AP-icP"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -113,7 +127,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="zmO-s8-co1">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DestinationCurrencyCell" id="zmO-s8-co1" customClass="DestinationCurrencyCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -126,8 +140,8 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C8e-D9-wGL">
-                                                    <rect key="frame" x="210" y="21" width="90" height="48"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="C8e-D9-wGL">
+                                                    <rect key="frame" x="160" y="21" width="140" height="48"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="40"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -150,6 +164,7 @@
                                         <constraints>
                                             <constraint firstItem="kn3-g0-moC" firstAttribute="centerY" secondItem="R6R-7F-jCd" secondAttribute="centerY" id="4in-Lk-bX0"/>
                                             <constraint firstItem="NPh-Im-u2e" firstAttribute="leading" secondItem="zmO-s8-co1" secondAttribute="leading" constant="30" id="BEr-ha-c2t"/>
+                                            <constraint firstItem="C8e-D9-wGL" firstAttribute="leading" secondItem="zmO-s8-co1" secondAttribute="centerXWithinMargins" id="Wi7-qV-98S"/>
                                             <constraint firstItem="R6R-7F-jCd" firstAttribute="top" secondItem="NPh-Im-u2e" secondAttribute="bottom" constant="4" id="Zyt-fC-zW7"/>
                                             <constraint firstItem="NPh-Im-u2e" firstAttribute="top" secondItem="zmO-s8-co1" secondAttribute="top" constant="21" id="hQL-Gy-PH8"/>
                                             <constraint firstAttribute="trailing" secondItem="C8e-D9-wGL" secondAttribute="trailing" constant="20" id="jbD-Vo-ZQr"/>
@@ -157,6 +172,12 @@
                                             <constraint firstAttribute="trailing" secondItem="kn3-g0-moC" secondAttribute="trailing" constant="20" id="kr2-Mg-Bpb"/>
                                             <constraint firstItem="R6R-7F-jCd" firstAttribute="leading" secondItem="zmO-s8-co1" secondAttribute="leading" constant="30" id="p9N-fv-2Zi"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="amountLabel" destination="C8e-D9-wGL" id="Xra-re-XhL"/>
+                                            <outlet property="currencyCodeLabel" destination="NPh-Im-u2e" id="WlP-me-OXG"/>
+                                            <outlet property="rateLabel" destination="kn3-g0-moC" id="6iZ-o0-ceZ"/>
+                                            <outlet property="walletLabel" destination="R6R-7F-jCd" id="EeF-5L-2Ud"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -194,6 +215,8 @@
                         <outlet property="dstCurrencyView" destination="5hK-G1-RlJ" id="ctE-bf-8Q9"/>
                         <outlet property="dstCurrencyViewHeight" destination="LYP-C9-sMq" id="NUQ-SQ-DT2"/>
                         <outlet property="dstPageControl" destination="WC8-lC-iyL" id="5uR-6Q-g6c"/>
+                        <outlet property="exchangeButton" destination="I2u-oX-mSR" id="JpH-pZ-6Gd"/>
+                        <outlet property="rateButton" destination="mS5-tw-lO6" id="Kg7-4R-rtq"/>
                         <outlet property="srcCurrencyView" destination="K2C-jL-0n5" id="Q3y-vE-SpJ"/>
                         <outlet property="srcPageControl" destination="geA-ca-1eR" id="WMX-vn-g50"/>
                     </connections>

@@ -7,10 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "SourceCurrencyCell.h"
+#import "DestinationCurrencyCell.h"
 
 #define CURRENCIES @[@"GBP", @"USD", @"EUR"]
 
-@interface ViewController ()
+@interface ViewController () <CurrencyCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UICollectionView *srcCurrencyView;
 @property (nonatomic, weak) IBOutlet UICollectionView *dstCurrencyView;
@@ -20,8 +22,12 @@
 @property (nonatomic, weak) IBOutlet UIPageControl *srcPageControl;
 @property (nonatomic, weak) IBOutlet UIPageControl *dstPageControl;
 
-@property (nonatomic, strong) NSString *srcCurrency;
-@property (nonatomic, strong) NSString *dstCurrency;
+@property (nonatomic, weak) IBOutlet UIButton *rateButton;
+@property (nonatomic, weak) IBOutlet UIButton *exchangeButton;
+
+@property (nonatomic, strong) NSString *currentSrcCode;
+@property (nonatomic, strong) NSString *currentDstCode;
+@property (nonatomic, strong) NSNumber *currentSrcAmount;
 
 @end
 
@@ -29,7 +35,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    self.rateButton.layer.cornerRadius = 8;
+    self.rateButton.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.3].CGColor;
+    self.rateButton.layer.borderWidth = 1;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,19 +45,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.srcCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
-                                atScrollPosition:UICollectionViewScrollPositionLeft
-                                        animated:NO];
-    self.srcPageControl.numberOfPages = [CURRENCIES count];
-    [self currencyScrollChanged:self.srcCurrencyView];
-    [self.dstCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]
-                                   atScrollPosition:UICollectionViewScrollPositionLeft
-                                           animated:NO];
-    self.dstPageControl.numberOfPages = [CURRENCIES count];
-    [self currencyScrollChanged:self.dstCurrencyView];
-    
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -58,6 +55,22 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    [self.srcCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
+                                 atScrollPosition:UICollectionViewScrollPositionLeft
+                                         animated:NO];
+    self.srcPageControl.numberOfPages = [CURRENCIES count];
+    [self.dstCurrencyView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]
+                                 atScrollPosition:UICollectionViewScrollPositionLeft
+                                         animated:NO];
+    self.dstPageControl.numberOfPages = [CURRENCIES count];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self currencyScrollChanged:self.srcCurrencyView];
+    [self currencyScrollChanged:self.dstCurrencyView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -85,7 +98,6 @@
         [collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[CURRENCIES count] inSection:0]
                                atScrollPosition:UICollectionViewScrollPositionLeft
                                        animated:NO];
-        // Set our pagecontrol circles to the appropriate page indicator
         currentIndex = [CURRENCIES count] - 1;
     } else if (page == [CURRENCIES count] + 1) {
         [collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
@@ -96,13 +108,32 @@
     pageControl.currentPage = currentIndex;
     
     if(scrollView == self.dstCurrencyView) {
-        self.dstCurrency = CURRENCIES[currentIndex];
-        NSLog(@"dst: %@", self.dstCurrency);
+        self.currentDstCode = CURRENCIES[currentIndex];
     }
     else {
-        self.srcCurrency = CURRENCIES[currentIndex];
-        NSLog(@"src: %@", self.srcCurrency);
+        self.currentSrcCode = CURRENCIES[currentIndex];
+        [self performSelector:@selector(updateActiveField) withObject:nil afterDelay:0.1];
     }
+    NSString *rateString = [NSString stringWithFormat:@"$1 = $1"];
+    [self.rateButton setTitle:rateString forState:UIControlStateNormal];
+}
+
+-(void)updateActiveField {
+    NSIndexPath *ip = [self.srcCurrencyView indexPathForItemAtPoint:CGPointMake(self.srcCurrencyView.contentOffset.x+1, 1)];
+    SourceCurrencyCell *cell = (SourceCurrencyCell*)[self.srcCurrencyView cellForItemAtIndexPath:ip];
+    if(ip.row != 0 && ip.row != [CURRENCIES count]+1 && [cell.currencyCode isEqualToString:self.currentSrcCode]) {
+        [cell activateCell];
+    }
+}
+
+#pragma mark actions 
+-(IBAction)exchangeAction:(id)sender {
+    
+}
+
+-(IBAction)cancelAction:(id)sender {
+    [self.srcCurrencyView reloadData];
+    [self performSelector:@selector(updateActiveField) withObject:nil afterDelay:0.1];
 }
 
 #pragma mark keyboard
@@ -118,6 +149,14 @@
     self.dstCurrencyViewHeight.constant = self.srcCurrencyView.frame.size.height;
 }
 
+#pragma mark CurrencyCellDelegate
+-(void)amountDidChange:(NSNumber*)amount {
+    self.currentSrcAmount = amount;
+    [self.dstCurrencyView reloadData];
+
+    self.exchangeButton.enabled = ([_currentSrcAmount intValue] <= 100);
+}
+
 #pragma mark UICollectionView
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [self currencyScrollChanged:scrollView];
@@ -128,7 +167,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    
     NSString *currencyCode;
     if(indexPath.row == 0)
         currencyCode = [CURRENCIES lastObject];
@@ -136,8 +175,28 @@
         currencyCode = [CURRENCIES firstObject];
     else
         currencyCode = CURRENCIES[indexPath.row-1];
-    [[cell viewWithTag:1] setText:currencyCode];
-    return cell;
+    
+    if(collectionView == self.dstCurrencyView) {
+        DestinationCurrencyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DestinationCurrencyCell" forIndexPath:indexPath];
+        cell.currencyCode = currencyCode;
+        cell.walletAmount = @(100);
+        cell.rateString = @"$1 = $1";
+        cell.changeAmount = @([self.currentSrcAmount doubleValue]*2);
+        return cell;
+    }
+    else {
+        SourceCurrencyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SourceCurrencyCell" forIndexPath:indexPath];
+        cell.currencyCode = currencyCode;
+        NSLog(@"currencyCode: %@", currencyCode);
+        cell.walletAmount = @(100);
+        cell.delegate = self;
+        return cell;
+    }
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return collectionView.bounds.size;
 }
 
 @end
